@@ -17,7 +17,7 @@ test -f /etc/profile.dos && . /etc/profile.dos
 #PROMPT_COMMAND='echo -ne "\033]0;${PWD/#$HOME/~}\007"'
 #PROMPT_COMMAND='echo -ne "\033]0;${PWD/#$HOME/~}          \007"'
 
-PS1="\\u:\\w\$ "
+PS1="\\W\$ "
 #PS1="\\h:\\w\$ "
 #PS1="\\u@\h:\\$ "
 export DISPLAY LESS PS1 PS2
@@ -50,10 +50,6 @@ export EDITOR=/usr/bin/vim
 test -s ~/.alias && . ~/.alias
 
 export O=/work/dragonfly
-#export B=/data/Badger
-#export BADGER=~/.tda:$B:$B/etc/Graphics/:$B/etc/icons:$B/etc/Bindings::$B/doc/public/Tego
-#export BADGER_COMPILER_OPT=debug
-#export BADGER_OVERLAYS=1
 #export DISTCC_SSH=`which ssh`
 export SVN_EDITOR=vi
 
@@ -65,6 +61,7 @@ ulimit -c unlimited
 umask 002
 
 PATH=$PATH:/opt/omtools/bin:~/local/bin
+PATH=~/bin:/work/dragonfly/build-tools/build-commands:$PATH
 
 function vg
 {
@@ -84,3 +81,20 @@ function vg
 function clean {
     sudo rm -rf ./.build_out ./.publish ./results ./.scratch ./ivy-report.* ~/omons-mhorn/__Build_*/ .ivy/ /opt/omtools/omverse/root/.ivy2;
 }
+# \[\e[0m\] resets the color to default color
+reset_color='\[\e[0m\]'
+#  \[\033[33m\] sets the color to yellow
+path_color='\[\033[33m\]'
+# \e[0;32m\ sets the color to green
+git_clean_color='\[\e[0;32m\]'
+# \e[0;31m\ sets the color to red
+git_dirty_color='\[\e[0;31m\]'
+
+# determines if the git branch you are on is clean or dirty
+
+export MYPS='$(echo -n "${PWD/#$HOME/~}" | awk -F "/" '"'"'{
+if (length($0) > 20) { if (NF>4) print $1 "/" $2 "/" $3 "/.../" $NF;
+else if (NF>3) print $1 "/" $2 "/" $3 "/.../" $NF;
+else print $1 "/.../" $NF; }
+else print $0;}'"'"')'
+PS1='$(eval "echo ${MYPS}")$ '

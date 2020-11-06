@@ -116,9 +116,11 @@ endif
 let g:airline_symbols.space = "\ua0"
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-map <F1> .n
+map <F5> .n
 map <F3> 0j.
+map <F6> yypj
+map <F7> 0jj.
 
-execute pathogen#infect()
+"execute pathogen#infect()
 syntax on
 filetype plugin indent on

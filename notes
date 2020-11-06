@@ -1,0 +1,1136 @@
+John Baron:     720-560-6140
+Brook Cavalla:  85535 (?)  or 559-214-5311
+Dusty Dustin Campbell:        720-635-6953
+        3011 Poplar Valley Way
+        Kingwood, TX  77345
+Todd Johnson:   W:  559-214-5544 C:  559-307-6276
+Patrick Ma: 408-888-0180
+Mohammad Qasam:  559-940-4011
+Murray Craig:  970-213-7343
+Jim Owens:  cell -- 970-214-5372
+Randy Minster:  720-938-1878
+Casey Miller:  970-372-2108
+Mat Ward:  559-575-9110
+Jen Darby:  402-8219 (cell)
+David Helzer:  970-231-8393
+Jim Owens: 970-214-5372 (cell)
+Michael Adam:  1-559-214-5301 --> 559-244-1240 (cell)  pelcomichael@gmail.com
+Davebo Rodrigues:  1-559-240-5823
+Frank Angel:  559-214-5304 (Office)  559-824-1393 (cell)
+Perry Marshall:  970-231-9463 (cell)
+Kevin Saldanha:  970-215-0543
+Schneider Networking Issues:  2929it or (844) 281-4696
+Trang's replacement:  Kevin Ahn (kevin.ahn@pelco.com)
+
+
+To change a name in every file
+	find . -name *.h > /tmp/foo
+	find . -name *.cpp > /tmp/foo
+	perl -pi -e 's/oldstring/newstring/g' `cat /tmp/foo`
+
+Kdb -- The CD Kreator
+Current settting:
+	/dev/cdrecorder -> sr0
+	/dev/cdrom -> hdg
+
+------------------------------------------
+
+XML Reader/Browser
+kxmleditor filename.xml
+
+-----------------------------------
+*Documentation Updated*
+
+   - Make sure documentation updates have been checked in.
+   - Make sure the revision number has been updated and checked in.
+
+*Regression*
+
+   - You should have a good idea of the state of the regressions.
+
+*Passwordless Login to Seed (usually a one-time setup)*
+
+   - "ssh-add -L" should show at least one public key
+   - ssh -A badger@seed.tuscanyda.com
+      - If a password was required then run "ssh-add -L >>
+      .ssh/authorized_keys" after you get in.  Try again.
+   - ssh -A badger@napoli.tuscanyda.com
+      - ssh badger@seed.tuscanyda.com should also not require a password.
+   - Stay logged in to napoli for the next steps.
+
+*
+Support Tools Update
+
+   - Not always needed.
+   - On napoli, run:  /data/cache/update
+
+Build the Release*
+
+   - Create a new directory under /data/releases
+      -  It doesn't matter where.  It doesn't need to stick around long
+      term.
+      - cd to it
+   - export OPT=debug and export NODVD=1 in the environment to build a debug
+   release and not burn the archive DVD
+   - Build the release:
+      - release trunk 16948
+      - release branches/Pinpoint2.2.1 17405
+   - Wait a couple of hours...
+      - Maybe drop in from time to time to for errors.
+      - You might look in to using "screen" so that you can detach from it
+      while it is building.
+         - This complicates the use of ssh-agent for passwordless login.
+      - When the DVD has been burned, take it out of the drive and replace
+   it with a fresh one for next time.
+
+VNC
+
+To start a VNC session:
+	$>  vncserver
+		
+	     Password: tuscany
+	     Verfy: tuscany
+	     Would you like to enter a view-only password (y/n)? n
+
+	     Creating default startup script..
+
+	$>  krdc
+	      VNC server supports protocol version 3.7
+	      VNC authentication succeeded
+	      Desktop name "paulab's X desktop (slackermom:1)"
+
+	$>  vncserver -kill :1
+
+To connect to a VNC on another's machine
+	$>  krdc
+
+		--> will get a popup in which you are asked which
+		machine to connect to (slackermom:1)
+
+To run regressions on redwood	
+	1.  ssh redwood
+	2.  vncserver
+		type in password	
+	   it will display something like "redwood@tuscanyda.com:3"
+
+	In another shell:
+	3. krdc
+		prompt you for "redwood@tuscanyda.com:3"
+	
+	Run regressions (can kill window if need be).
+
+
+-----------------------------------------------
+OPENVPN
+To start openvpn on slackermom:
+	$>  sudo /etc/init.d/openvpn start
+
+When reformatting disk:
+	su root
+	/etc/init.d/openvpn start
+	uncomment out /etc/openvpn/tuscany.up (grab from teviot if
+						need be)
+	edit /etc/openvpn/tuscanyda.up
+		add 'up /etc/openvpn/tuscanyda.up' at 2nd to last line
+
+-----------------------------------------------
+
+To run regression tests on mesquite while sitting on slackermom
+   $>  ssh badger@mesquite.tuscanyda.com
+   $>  setenv DISPLAY :10
+   $>  setenv B /data/Badger
+   $>  vncserver :10
+
+   In aother window, type:
+   $>  vncviewer mesquite.tuscanyda.com:10
+       Password:  803
+
+   In original window
+   $> cd $B/Private/Test/Triggers
+   $> ./trigger-test
+
+-----------------------------------------------
+MakeDoc
+To Generate MakeDoc
+	cd $B
+	make doxy-xml
+		this might take a while
+	cd $B/scripts/perl5/MakeDoc
+	rm *.db
+	TEGO_SCRIPT_NAME=MakeDoc.perl $B/bin/tego 2>&1 | tee results
+		this iwll be slow the first time
+
+-----------------------------------------------
+
+Fidelity:	pbeatytda
+
+TEST Lots of shapes: Vitesse/sram-lite
+Test adding shapes:   broadcom/icc -> Run Prerouter
+
+-------------------------
+Applications
+        broadcom -- lots of regions
+        nvidia/ts0 -- 1 million fixed-placed instances
+
+---------------------------------
+Qt help
+        qhelpconverter Tuscany.adp
+                produces Tuscany.qhp and Tuscany.qhcp
+        qcollectiongenerator Tuscany.qhcp
+                produces Tuscany.qch and Tuscany.qhc
+        assistant -collectionFile Tuscany.qhc
+
+-------------------------
+Login root on seed:
+	from slackermom:
+	ssh root@teviot
+	su mattm
+	ssh root@seed
+
+   or
+   	from pieta:
+	ssh root@seed
+
+--------------------------
+To read pod documentation (like for YaTmpl)
+pod2man YaTmpl.pod |nroff -man |less
+
+--------------------------
+To change the DNS zone files so that additional computers
+are recognized within our firewall:
+
+Log in as root on apple (see above)
+        vi /var/named/db.tuscanyda.com
+
+        Change Serial so that it reads the date:
+        2009102800  --> the first change on 10/28/2009
+        2009110101  --> the second change on 11/1/2009
+
+        After editing, run
+
+        rndc reload
+
+------------------------------------------------------------
+Creating a new node-locked license
+	cd $B/src/Tools/ProdMgr
+	sh Examples/product-setup
+	cp Examples/make-node-locked-license foo
+	vi foo (fill in host and id)
+	sh foo
+	cp /tmp/milano.nl ~/.tda/TDA.milano
+------------------------------------------------------------
+Examples
+
+/data/apps/trunk/static/azul/struct/ieu_stdcell/results/t22results
+	"tego"
+	3593 instances
+	0 regions
+	Open DEF/tx_ieu_fep_noppo_pro (or any in DEF library)
+		Whatif
+		Timing
+		Power
+
+/data/apps/trunk/static/dac/2009/tx0
+	"tego"
+	open verilog/tx0
+	287747 instances
+	0 regions
+		Instances Subwindow
+		Timing
+		Power
+		Whatif
+
+/data/apps/trunk/static/broadcom/tig_ne_regfile
+	"tego"
+	open verilog/tig_ne_regfile
+	30993 regions
+	23227 instances
+		Regions Subwindow
+		Instances Subwindow
+
+/data/apps/trunk/static/redback/wiregen
+	"tego"
+	open def/aos
+	0 regions
+	328 instances
+
+/data/apps/trunk/static/Vitesse/sram-lite
+	"tego"
+	open Verilog/sram
+	0 regions
+	12191 instances
+
+/data/apps/trunk/static/azul/struct/ieu_stdcell/results/t22results
+	./run-tego
+
+	Has first-encounter readers
+
+/data/apps/trunk/static/stream/incoming/spi_stelvio_data
+	./run-tego
+	open Interface/dpu16
+
+	Read prime time report (pt_reports/dpu16.wc_setup.b26.xBF.nldm.si.viol.gz
+
+/data/apps/trunk/static/redback/incoming/2008_10_14_eu_tuscany
+	instance bundles
+
+
+-----------------------
+run the debugger:
+==$  BADGER_DEBUG=1 tego
+or
+==$  BADGER_DEBUG=1 ./run_master
+-----------------
+WebEx
+https://tuscanyda.webex.com
+ID: support@tuscanyda.com
+P: Tuscany1
+
+--------------------------
+multi-tabbed xterms
+    mrxvt&
+
+    shift-arrows switch between tabs
+    ctrl-shift-d will toggle between input broadcasting
+
+-----------------------
+Debug javascript
+./run_master --js-debug
+
+Sample HTML (html Html)
+    <div id="SnapshotNotes">
+          <div class="PptHeading">NOTES
+	     <span class="FloatRight PptButton"> Add Note</span>
+	  </div>
+    </div>
+
+--Find ID (use a '#')
+var SnapshotNotes = $("div#SnapshotNotes");
+
+-- Find object of a given class (use a '.')
+var Heading = SnapshotNotes.find(".PptHeading");
+
+-- Find object of type span
+var Span = SnapshotNotes.find(".PptHeading span");
+
+
+THE SPACE INDICATES ITS A CHILD
+
+padding: top right bottom left
+To open link in new window:
+        <a href="http://www.yahoo.com" target="_blank"> Go to Yahoo </a>
+----------------------
+Run specific test:
+	GTEST_FILTER=*Http* make unit-test
+or
+	PRODUCT=pinpoint Run ./test-*
+
+=====================
+
+-----------------------
+run the debugger:
+==$  BADGER_DEBUG=1 tego
+or
+==$  BADGER_DEBUG=1 ./run_master
+
+---------------------
+Every Time Reboot pieta
+   sudo /etc/init.d/openvpn start
+   sudo /etc/init.d/sshd start
+
+---------------------
+attaching debugger in the code:
+
+   StdOut << "Debugging... ( attach " << getpid() << ") ";
+   getchar();
+		       :
+----------------------------
+Run pinpoint regressions
+
+cd /data/BadgerTest/Dashboard
+./testme
+
+WHEN Invalid XHTML returned:
+  1. Create a file (output.html) of the returned html
+  2. cd /data/BadgerTest/Dashboard
+  3. export XML_CATALOG_FILES="./xhtml-dtd/dtd-catalog.xml"
+  4.  xmllint --nonet --valid output.html
+  5.  Resolve issues
+
+----------------------------
+ssh-add
+ssh badger@napoli
+
+Make sure license is running
+	(/data/BadgerTrunk/license/start-license)
+
+cd /data/releases
+mkdir Branchname
+cd Branhname (Pinpoint2.2.1)
+mkdir VersionNum (17047)
+cd VersionNum
+   /data/BadgerTrunk/Private/bin/archive-and-build-release trunk 17047
+or
+   /data/BadgerTrunk/Private/bin/archive-and-build-release branches/Pinpoint2.2.1 17047
+
+DONE DONE DONE
+
+-----------------------------
+IE7 or IE8
+Virtual Box
+
+------------------------------
+Regular Expressions
+	SetPattern("#[0-9A-Fa-f]{3}");	Any string starting with '#' followed
+					by three hex characters
+	SetPattern("[a-zA-Z]+");        Any string with one or more alphabetical
+					characters
+
+------------------------------
+installing a .deb file
+
+dpkg -i XXX.deb
+
+
+------------------------------
+Pinpoint Testing
+   btest (cd /data/BadgerTest/trunk/Dashboard)
+   ./testme
+
+   Runs */test_*   script
+   Produces a TEST-* file to be reviewed
+
+   vimdiff file1 file2
+   	dp (diffput)
+	do (diffget)
+	ctrl-w ctrl-w (switch between files)
+   REPLACE_GOLDENS=1 ./test-timeline
+
+If a patch fails to make a a *.rej file is created, try to run
+patch
+	patch -i blah.html1.patch2 -o foo blah.html1.golden
+
+If a patch file could be generated but fails to match
+	kompare blah.html1-p2 blah.html1.golden-p2
+
+    If everything looks correct, then you can run to replace ALL
+       REPLACE_GOLDENS=1 ./test-*
+
+    or to replace single one
+       diff -U 8 blah.html1.golden blah.html1-p2 > blah.html1.patch2
+
+NOTE:  blah.html1.golden --> original golden (in svn)
+       blah.html1.golden-p2 --> generated file from blah.html1.golden (not svn)
+       blah.html1.patch2 --> patch file (in svn)
+       blah.html1-p2 --> generated file from patch file
+       		blah.html1-p2 is compared with blah.html1.golden-p2
+
+---------------------------------------
+Problems building the wrapper after "make clobber"
+Make sure you do a "make depend-all" before trying to rebuild.
+
+-------------------------------
+To find and do something in each subdirectory:
+
+for directory in `find . -type d -maxdepth 1 -mindepth 1 -not -name .svn`
+do
+   echo
+   #echo Working on $directory
+   #cd /data/Badger/Private/Test/Triggers/$directory
+   #cp ../prune_objects.pl .
+   #perl prune_objects.pl
+   #mv /tmp/log.xml log.xml
+   #rm prune_objects.pl
+done
+
+-----------------------------
+To print time given seconds
+	perl -e 'print scalar(localtime(1272734343444))'
+
+-------------------------------------------------------------
+Trouble compiling the Wrapper/wrapper?
+   make sure you do
+	make depend-all
+   after clobbering
+
+-----------------
+Updating the splash screen
+	cd $B/Private/Private/SplashScreen
+	vi README
+
+-------------------------------------------------------------
+MAKE RELEASE (Make release)
+
+http://wormy.tuscanyda.com/cgi-bin/svntrac.cgi/wiki?p=BuildingRelease
+-----------------
+gdb
+attach XXXXX
+break DashboardWebTriggers.cpp:903
+c
+set follow-fork-mode child
+break XXXX
+c
+
+cisco anyconnect vpn client
+ca-vpn1.pelco.com
+
+--------------------------
+cu dfly
+
+------
+reduce jpeg size:
+        convert -resize 1280x960 -quality 90 fileIn.jpg fileOut.jpg
+
+
+------------------------------
+Grabbing rpms (or anything) from winterpark
+------------------------------
+On PC: type
+\\winterpark\Public\Onvif Test Tool\
+
+---------------------------------
+testing ftp via webui
+---------------------------------
+server: 10.220.232.119 (Jason's)
+user: test
+password: test
+base path: /home/test
+
+---------------------------------
+successful ifconfig on camera
+---------------------------------
+eth0      Link encap:Ethernet  HWaddr 00:04:7D:07:A7:4C
+          inet addr:10.220.178.65  Bcast:10.255.255.255  Mask:255.255.255.0
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:44130 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:23229 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000
+          RX bytes:46015967 (43.8 MiB)  TX bytes:4098898 (3.9 MiB)
+          Interrupt:13
+
+lo        Link encap:Local Loopback
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          UP LOOPBACK RUNNING  MTU:16436  Metric:1
+          RX packets:7 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:7 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0
+          RX bytes:916 (916.0 B)  TX bytes:916 (916.0 B)
+
+---------------------------------
+ See omons-settings on camera
+---------------------------------
+conf.lua show Applications/encom
+conf.lua show ____
+
+---------------------------------
+ltrace
+---------------------------------
+on desktop:
+sudo cp ~/local/ltrace ~/omons-dev/__Build_9083+A1__/buildfs/usr/bin
+
+on camera:
+ltrace /usr/sbin/encom &
+
+-------------------------------
+from phobos: send file to client
+-------------------------------
+       if (file_exists($file)) {
+           ob_end_clean(); // make sure output buffer is empty
+           header('Content-Description: File Transfer');
+           header('Content-Type: application/octet-stream');
+           header('Content-Disposition: attachment; filename='.basename($file));
+           header('Content-Transfer-Encoding: binary');
+           header('Expires: 0');
+           header('Cache-Control: must-revalidate');
+           header('Pragma: public');
+           header('Content-Length: ' . filesize($file));
+           flush();
+           readfile($file);
+       }
+
+---------------------------------
+Connect to router/switch box
+---------------------------------
+1.  Turn off dhcp
+        (bring up "System Settings" in start menu, go to networking, change network to manual)
+2.  Change local address to 192 net
+        sudo ifconfig eth0 192.168.1.156 netmask 255.255.255.0 broadcast 192.168.1.255
+3.  In browser, connect to box
+        192.168.1.254
+
+---------------------------------
+To see current omons-settings
+---------------------------------
+conf.lua show Applications/encom
+conf.lua show Security
+conf.lua show XXX
+
+---------------------------------
+ERRORS
+---------------------------------
+phobos error:  "DBUS call com.pelco.networkingV2:Get failed: The name com.pelco.networkingV2 was not provided by any .service files"    --> encom is not running
+
+no loop back on the camera--> ip addr add 127.0.0.1/8 dev lo; ip link set lo up
+
+-------------------------------
+Phobos --> soap --> Deimos --> MCP
+-------------------------------
+plugins/osd/views/VideoPropertiesController/index.php
+        phobos:onConfigurationCallback()
+        phobos:sendSoapRequest("CameraConfiguration");
+        deimos:CameraConfiguration:Set
+
+omons/source/interfaces/service.xml defines interface for
+        com.pelco.imaging.imagingSettings --> sends signal "ImagingSettingsChanged"
+
+deimos/source/imp/BasicVideoPropertiesHandler.cpp:SetVideoProperties()
+        arguments are the new video properties
+        writes omons-settings
+        calls SendDbusSignal()
+
+deimos/source/imp/BasicVideoPropertieshandler.cpp::SendDbusSignal()
+                sends signal "ImagingSettingsChanged" which should be caught by mcp
+
+mcp/source/imaging.c::imaging_setup
+        Registers a listener to "ImagingSettingsChanged" to call
+        _mcp_imaging_settings_changed_delegate which reads imaging settings from
+        omons-settings and sets the camera.
+
+---------------------------
+lua on deimos
+---------------------------
+deimos/luaApi/
+deimos/luaApi/lib/Device/Network.lua
+
+sudo cp deimos/luaApi/lib/Device/Network.lua root@camera_ip:/usr/lib/lua/5.1/Device/Network.lua
+
+sample test.lua on camera:
+        require("Device")
+        arg = { searchdomains={"pelco.org"} nameservers={"10.220.227.11", "10.220.4.21"} }
+        Device.Network.setDnsConfiguration(arg)
+lua < test.lua
+
+from command line:
+        lua
+                do
+                require("Device")
+                arg = { searchdomains={"pelco.org"} nameservers={"10.220.227.11", "10.220.4.21"} }
+                Device.Network.setDnsConfiguration(arg)
+                end
+
+Testing on DU2
+        -- add device (ip address of camera)
+        Configure DU2
+                add script
+        run script
+
+---------------------
+unzipping a file
+---------------------
+  $> file-roller file.zip
+
+-----------------
+setting up nfs mount (new camera)
+-----------------
+   sudo mkdir /export
+   sudo mkdir /tftpboot
+   sudo ln -s -T /opt/devroot/__Build_9111+O3__/ /export/9111
+   sudo ln -s -T /opt/devroot/__Build_9111+O3__/binaries /tftpboot/9111
+   gksudo gedit /etc/exports
+       append the line:
+       /export/9081/buildfs
+*(rw,insecure,sync,no_wdelay,no_subtree_check,no_root_squash)
+   sudo service nfs-kernel-server restart
+
+   see netbooting
+
+-----------------
+-----------------
+C++ strings
+-----------------
+stringstream oss;
+oss << "stuff";
+return oss.str();
+
+
+------------------------------
+Set the date on the camera
+------------------------------
+date -s "10 Oct 2012 12:00:00"
+date -s "2012-12-21 12:00:00"
+
+-------------------------
+Connecting up camera:
+        keyboard and mouse into rack
+        white display cable to monitor 2 and rack
+        blue display cable to monitor 1 and rack
+        blue internet cable from rack to cisco router #5
+        yellow internet cable from cisco router #6 to camera
+        gray internet cable from cisco router #9 to wall
+        gray serial cable from rack to mini board
+        camera gray cable to mini board
+
+-------------------------
+static configuring net address
+-------------------------
+ifconfig eth0 10.220.232.204
+
+--------------------
+WireShark
+--------------------
+	pcap files are created using tool like wireshark (camera uses tcpdump)
+	invoke and load pcap file
+
+on the camera for a unix socket (unix:///tmp/sockets/rest-server"
+>$  unixdump rest-server start
+        --> creates a file in /tmp/rest-server.pcap
+>$ mv /tmp/rest-server.pcap /
+>$ chmod 777 /rest-server.pcap
+
+bring up wireshark from START menu
+open file
+-------------------
+unixdump
+-------------------
+	On the camera:
+		cd /tmp/sockets 	(unix sockets)
+		unixdump omons-settings-server start
+		<Run soapUI command>
+		unixdump omons-settings-server stop
+		--> this creates a file /tmp/omons-settings-server.pcap
+			which can be analyzed using WireShark.  Packets
+			are UDP packets
+
+		R
+
+----------
+NFS Mount:
+----------
+	sudo /etc/init.d/nfs-kernel-server restart
+	tftp 127.0.0.1
+
+--------------------------------
+netbooting
+--------------------------------
+setenv bootcmd run netboot
+setenv hostip 10.220.178.69
+saveenv
+boot
+
+----------------------
+python environment
+        create a virtual python environment:
+                mkvirtualenv -p /usr/bin/python3 venv
+        activate
+               . ~/.virtualenvs/venv/bin/activate
+
+        run gantt chart
+               pip install -r requirements.txt
+               ./jira2csv.py -u paula.beaty > output.csv
+
+        deactivate
+                deactivate
+
+
+----------------------
+git
+unstage: git reset
+clone:  git clone git@gitlab.pelco.org:omons/omons
+
+new branch:  git checkout -b new_branch
+
+//Change to gitlab
+        git remote set-url origin git@lvusclo01git.nam.gad.schneider-electric.com:omons/omons.git
+        cd /opt/omtools
+        sudo git remote set-url origin git@lvusclo01git.nam.gad.schneider-electric.com:omons/omtools.git
+
+find branch contains commit: git branch -a --contains SHA
+pretty log: git log --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
+pretty log2 git log --pretty=format:"%h - %an, %ar: %s"
+undo local commit:   git revert sha
+
+cancel a local commit: git reset --hard HEAD-1
+delete a branch: git branch -D branch_name
+
+compare branches: git show-branch branch1 branch2
+
+rebase -- bring in latest changes from trunk_staging while keeping your changes on top
+        git pull -rebase
+
+BEWARE CLEAN -- sudo git clean -xffd .
+
+To clean up my repository from removed branches:  git fetch --prune
+
+----------------------
+Manager:
+      See Manager/notes
+      ExpenseWire:  Expense type:  "Other" --> G/L #:  91542
+      Training GL = 83149
+
+      Meal receipt:
+        Location:  Fort Collins
+        Customer:  <blank>
+        Project:  Non-project related
+
+      PeopleLink:  1-877-248-2998
+
+      Travel:  www.concursolutions.com --> May, 2018
+               https://portal.bcdtravel.com/schneiderelectric/Default.aspx
+
+               Your user id is of the form: SESA1234@SE  May 2018
+               National Emerald Club:  819296332
+
+----------------------------
+bamboo
+    Create RC
+    1.  "Build" pull-down menu:  select "All Build Plans"
+    2.  Select "Omons - SEBU" "BLD_linaro"
+    3.  In "master" pull-down menu, select branch (e..g, 2.11.x.x)
+    4.  In "Run" pull-down menu (far right), select "Run Customized"
+    5.  Select "Override a variable" in the dialog box
+    6.  Select "release_version" in the selection box
+    7.  Replace "DAILY" with "2.11.x.x"
+    8.  Select RUN
+
+
+0-----------------------
+Pro4K
+     printenv
+     /usr/sbin/fw_setenv bootcmd run bck_tn    (for netbooting)
+     /usr/sbin/fw_setenv bootcmd run bck_ff    (for booting from flash)
+     /usr/sbin/fw_setenv hostip 10.X.X.X
+     /usr/sbin/fw_setenv hostip 10.220.232.107
+     saveenv
+
+     NOTE:  DHCP does not work when netbooting, so use static IP when net booting.  Verify:
+     /usr/sbin/fw_setenv ipv4_dhcp off
+     /usr/sbin/fw_setenv ipv4_mask 255.255.252.0
+     /usr/sbin/fw_setenv ipv4_gate 10.220.232.1
+     /usr/sbin/fw_setenv ipv4_addr 10.220.234.XX      (where XX is the static ip assigned to that camera)
+
+     saveenv
+
+----------------
+jovis, javascript
+     parse
+        <tt:Mode>Off</tt:Mode>
+        <tt:Mode>On</tt:Mode>
+        <tt:Mode>Auto</tt:Mode>
+
+        find('tt\\:Mode, Mode').each(function() {
+            var mode = _$(this).text();
+            ...
+        }
+
+------------------------
+BCD TRAVEL
+I'm not exactly sure - I'd suggest contacting BCD SCHNEIDER ELECTRIC ***** BCD TRAVEL
+OFFICE HOURS ARE 730A-600P CST MON-FRI.
+TO CONTACT OUR OFFICE DURING THESE HOURS
+PLEASE CALL TOLL FREE - 866-849-6588
+FOR AFTER-HOURS EMERGENCY SERVICE
+PLEASE CALL TOLL FREE - 866-822-1870
+FOR AFTER-HOURS EMERGENCY SERVICE WHILE OVERSEAS
+PLEASE CALL COLLECT - 00-1-847-291-5467
+
+-----------
+set time on the camera:
+date -s "2018-08-14 16:34"
+
+-----------------
+Fresno conference rooms:
+101, 102, 201
+
+------------------
+Logconf
+THARSIS_MHORN:  /usr/bin/logconf set THARSIS_MHORN system:info console:notset file:notset
+tharsis:  /usr/bin/logconf set tharsis true false 7
+DEIMOS_MHORN:  /usr/bin/logconf set DEIMOS_MHORN system:info console:notset file:notset
+
+----------------
+JIRA access for Nexcom
+1.  Secure a signed Affidavit for each employee and fill out the SSL VPN spread sheet for the new members
+2.  Send SESA request and affidavits to Pam Brum
+        a.  Need email address, phone numbers and physical address for all eemplyees
+        b.  Allowed IP addresses, ports and protocols must be provided
+3.  I will get an email from identify.admin@schneider-electric requiring me to affirm the SESA
+4.  SESA accounts will be created and active
+5.  I will get an email from identity.admin@schneider-electric affirming the SESA
+4.  Users must login within 30 days
+
+
+--------------
+ntp time:  10.218.99.10
+ntp time:  pool.ntp.org
+ntp time:  10.218.100.52
+
+ntp time (maybe Fresno):  10.221.132.40
+
+
+------------
+virtual env:  for python3
+python        $>  virtualenv python3
+python
+python        $> workon camera_finder
+python        $> ./camera_finder.py
+python                reboot the camera
+python        $> deactivate
+
+
+000000000000000000
+Giving to International Justice Mission
+        District of Columbia
+        United States
+
+-------------------
+$> pcp2sh
+$> l()
+$> help(Imaging_0050)
+$> Imaging_0050[1]:get_brightness(0)
+
+$> apish
+$> l()
+$> help(Imaging)
+$> imaging_0:get_sharpness_send()
+
+
+-----------------------------
+gdb core file
+
+$> /opt/omtools/bin/omverse
+000> /mnt/wormhole/work/dragonfly/debug-tools/gdb/hisilicon/arm-hisiv600-linux-gnueabi-gdb /mnt/wormhole/work/__Build_9091__/buildfs/usr/bin/deimos -c /mnt/wormhole/work/__Build_9091__/buildfs/usr/bin/deimos.core.3333
+gdb>  set solib-search-path /mnt/wormhole/work/__Build_9091__/buildfs/lib:/mnt/wormhole/work/__Build_9091__/buildfs/usr/lib
+gdb> set environment LD_LIBRARY_PATH=/mnt/wormhole/work/__Build_9091__/buildfs/lib:/mnt/wormhole/work/__Build_9091__/buildfs/usr/lib
+
+
+------------------------
+bitrate calculator : https://www.pelco.com/estimator
+
+-----------------------------
+matterhorn documentation:  chromium-browser /work/__Build_9091__/docs/site/index.html
+matterhorn_documentation:  browser:  http://10.220.233.253/
+
+Edit a markup-language file for matternhorn documentation
+typora FILE.md
+
+
+------------------------
+Debugging unit test
+        void ShouldReturnHttpsUri(void) {
+           RESTRICT_SCOPE {
+              omons::core::IniFile ini;
+              ini["l"]["log.stdout"] = "true";
+              ini["l"]["log.level"] = "7";  // info=6, debug=7
+              omons::core::Logger::ConfigureLogging(ini, "l");
+          }
+
+------------------------
+tcpdump
+        /usr/sbin/tcpdump -w /tmp/mv_caputer.pcap -t port 80 and host 10.220.232.107
+---------------------
+
+get fixed IP address to provide other companies:
+        curl bot.whatismyipaddress.com
+
+        --> 12.178.166.194
+
+
+------------------
+ONVIF test tool
+   Message Timeout:  3000
+   Reboot Timeout:   3000
+   Time Between Tests:  0
+   Operation Delay:  1000
+   Time between requests:  0
+
+   I/O --> Relay outputs delay:  20
+
+   Fill out event information on Manager page:  Hit the "GET" button
+
+--------------------
+update MCU
+  $> systemctl stop imaging3A.service
+  $>  /usr/local/bin/mcuSpi 54 /opt/msp430_mcu_firmware/firmware.txt
+
+Figure out version
+  $> /usr/local/bin/mcuSpi 0
+
+
+atop
+   monitor memory:      atop 30 -m
+   save to file         atop 30 -m -w /mnt/unused/atop.output
+                                '30' --> ping every 30 seconds
+   read file            atop 30 -r /mnt/unused/atop.output
+                                't' --> go forward in time
+                                'T' --> go backwards in time
+                                'b' --> enter time
+
+
+------------
+TopView FW
+        soapui:  /onvif/device_service
+        /var/log/messages --> /mnt/backup/logs/messages
+
+-------------
+cppcheck
+    $> cppcheck --xml
+
+    This will generate xml file listing offending error code
+
+
+--------------
+amboot_env_util
+        -k (nfs options)        :  proto=tcp,rsize=8192,wsize=8192,nolock
+        -d 1/0                  : dhcp en
+        -e 1/0                  : enable nfs boot
+        -h 10.220.232.107       :  hostname
+
+amboot_env_util -k proto=tcp,rsize=8192,wsize=8192,nolock
+
+---------------------------
+Autotime -- used for Mathew Ward
+    To approve:
+        Select "Supervisor" --> "Time Off Scheduling" (in far left menu)
+        Select the issues listed at the top which are requests
+        Select "Approve" for all of them
+
+Kronos
+    To change between myself and my team, there is top right button to change
+    the view between yourself and your team
+
+PeopleLink
+        Use https://schneider.service-now.com/supportatschneider and start the chat feature
+        1-877-248-2998
+
+LearningLink
+Find all hours trained:
+    1.  Menu --> Reports --> Standard Reports
+    2.  Select "Training Hours"
+    3.  Select
+                "This year"
+                "Summarize by User"
+                (leave User Critera blank)
+    4.  Unselect
+                "Registered" or "In Progresss"
+    5.  Hit "Printable Version"
+
+HRe-guide (Support@schneider:  https://schneider.service-now.com/supportatschneider
+        -- questions on payroll, benefits, rewards, SE policies
+Tara helps with -- employee relations, manager coaching, perforamance management, hiring and exits, career paths
+
+
+Travel --
+send receipts to receipts@concur.com
+
+----------------------------------
+Any problems with Tools, HW needs, Network, Data center, Lab related
+        send email to ets@pelcojira.atlassian.net
+
+---------------------------------
+To track memory on the camera:
+        $> cat /proc/`pidof deimos`/status |grep Rss
+        RssAnon:            6000 kB
+        RssFile:           21004 kB
+        RssShmem:              0 kB
+
+    RssAnon -- heap memory
+
+------------------------
+Manpower Invoices
+        TO:  Paophue Her
+             Julie Venor
+
+
+Please pay with Ereq#108858
+Thank you!!
+
+--------------------
+Determine speed of NIC
+   on cameras
+   $>  /usr/sbin/ethtool eth0 | grep speed
+
+   on desktop
+   $> sudo /sbin/ethtool eth0 | grep speed
+
+-----------------
+Linux test framerate out with high priority
+        on camera
+        $> chrt -f 99 /usr/local/bin/test_vin -t 0
+----
+SMTP -- LVUSCLO02WEB.nam.gad.schneider-electric.com
+
+--------------------------
+du -sh *
+
+----------------------
+Analytics Vision
+        Partners:
+                Pilot for edge analytics
+                Paravision for Facial Recognition
+        Q1'20 -- Person in Zone
+        Q2'20 -- Vehicle in Zone, Counterflow
+        Q3'20 -- Live Counting Reports
+        Q4'20 -- Stopped Vehicle, Loitering
+        Q1'21 -- Facial Rec
+        Q2'21 -- Redaction
+        Q3'21 -- Visual Search
+        Q4'21 -- Occupancy and reports
+
+-------------------------------
+keyboard shortcut -- SHIFT/SPACE -- toggles multi-lingual typing parser
+
+--------------------
+Serial Port tool:
+    sudo gtkterm &
+
+Current Wiki password/Password:  pelco123
+Atlassian (JIRA) password:  August 2020
+
+--------------------
+Deimos API permissions
+        tests/FakeSecurityProvider.cpp defines
+        case kGroupAdmins:
+            retval.push_back(kPermUnrecoverable);
+            retval.push_back(kPermWriteSystemSecret);
+            retval.push_back(kPermReadAdminOnly);
+            // fall through
+        case kGroupManagers:
+            retval.push_back(kPermReadSystemSecret);
+            retval.push_back(kPermWriteSystem);
+            // fall through
+        case kGroupOperators:
+            retval.push_back(kPermReadSystemSensitive);
+            retval.push_back(kPermActuate);
+            // fall through
+        case kGroupViewers:
+            retval.push_back(kPermReadSystem);
+            retval.push_back(kPermReadMedia);
+            // fall through
+        case kGroupStrict:
+            retval.push_back(kPermApiAccess);
+            retval.push_back(kPermEnduraApiAccess);
+
+----------------
+Motorola
+        CoreID:  XBRP46  -- used for IT systems on Motorola solutions network
+        Employee/Contractor ID (Commerce ID):  19000513
+    if (! linkedStreamsSettings.Empty()) {
+        Password:  Motorola8_2020
+                   3612Chipperfield!!
+        favorite art: Pieta
+
+        paula.beaty@motorolasolutions.com
+        paula.beaty@gmail.com
+        970-282-1988
+
+-----------------------
+New docker image
+   See which images exist:
+        $> docker images
+   Download new camera-build-env-ubuntu_3.1.tar.gz
+        $> docker load -i camera-build-env-ubuntu_3.1.tar.gz
+
+------
+¯\_(ツ)_/¯
+
+
