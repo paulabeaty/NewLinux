@@ -50,6 +50,7 @@ export EDITOR=/usr/bin/vim
 test -s ~/.alias && . ~/.alias
 
 export O=/work/dragonfly
+export A=/home/pbeaty/avo/unity
 #export DISTCC_SSH=`which ssh`
 export SVN_EDITOR=vi
 
@@ -62,6 +63,7 @@ umask 002
 
 PATH=$PATH:/opt/omtools/bin:~/local/bin
 PATH=~/bin:/work/dragonfly/build-tools/build-commands:$PATH
+PATH=$PATH:~/avo/int/tools
 
 function vg
 {
@@ -98,3 +100,6 @@ else if (NF>3) print $1 "/" $2 "/" $3 "/.../" $NF;
 else print $1 "/.../" $NF; }
 else print $0;}'"'"')'
 PS1='$(eval "echo ${MYPS}")$ '
+# DistCC variables
+export UB_DISTCC_REGION=FortCollins
+export UB_DISTCC_REPO_PATH=/home/pbeaty/avo/VSA-Firmware_distcc-config

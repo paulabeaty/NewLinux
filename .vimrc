@@ -85,16 +85,21 @@ colorscheme elflord
 " Use spaces instead of tabs
 set expandtab
 
-" 1 tab == 4 spaces
-set shiftwidth=4
-
 set autoindent		" always set autoindenting on
 set si			" smart indent
 
+filetype plugin indent on
+" show existing tab with 4 spaces width
+set tabstop=4
+" when indenting with ">", use 4 spaces width
+" set shiftwidth=4
+
+" On pressing tab, insert 4 spaces
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " remove trailing white spaces on each save
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-au  BufWritePre * exe "mark s | g/$/s/  *$// | 's"
+"au  BufWritePre * exe "mark s | g/$/s/  *$// | 's"
+autocmd BufWritePre * :%s/\s\+$//e
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Make @@X indent xml file using xmllint
@@ -121,6 +126,9 @@ map <F3> 0j.
 map <F6> yypj
 map <F7> 0jj.
 
+let html_no_rendering=1
 "execute pathogen#infect()
 syntax on
 filetype plugin indent on
+
+runtime macros/matchit.vim
